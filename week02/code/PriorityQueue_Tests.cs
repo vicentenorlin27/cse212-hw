@@ -8,7 +8,7 @@ public class PriorityQueueTests
     [TestMethod]
     // Scenario: Enqueue Low with priority 1, High with priority 3, Medium with priority 2. Dequeue one time.
     // Expected Result: High is returned, because it has the highest priority, even though it was not added first.
-    // Defect(s) Found: Before the fix, this test passed for the first dequeue, but the item was not removed from the queue, so a second dequeue would return High again. After the fix, High is returned once and removed. Test result after the fix: Passed.
+    // Defect(s) Found: The original implementation did not correctly identify the highest-priority item in all queue positions. This test verifies that the highest-priority item is selected. Test result after the fix: Passed.
     public void TestPriorityQueue_1()
     {
         var priorityQueue = new PriorityQueue();
