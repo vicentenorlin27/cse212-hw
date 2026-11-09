@@ -11,7 +11,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3) and
     // run until the queue is empty
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: Before the fix, the test failed because the order was backwards. Sue came out first instead of Bob, because PersonQueue Enqueue put new people at the front of the list. After the fix, Enqueue adds people to the back. Test result after the fix: Passed.
     public void TestTakingTurnsQueue_FiniteRepetition()
     {
         var bob = new Person("Bob", 2);
@@ -43,7 +43,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (5), Sue (3)
     // After running 5 times, add George with 3 turns.  Run until the queue is empty.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, George, Sue, Tim, George, Tim, George
-    // Defect(s) Found: 
+    // Defect(s) Found: Before the fix, the test failed because the order was backwards, for the same reason as the first test: PersonQueue Enqueue put new people at the front of the list. After the fix, Enqueue adds people to the back. Test result after the fix: Passed.
     public void TestTakingTurnsQueue_AddPlayerMidway()
     {
         var bob = new Person("Bob", 2);
@@ -85,7 +85,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Bob (2), Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Bob, Tim, Sue, Bob, Tim, Sue, Tim, Sue, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: Before the fix, the test failed because Tim with 0 turns disappeared after his first turn. GetNextPerson only put a person back if their turns were more than 1, so infinite turns were not put back. After the fix, a person with 0 or less turns is put back without changing their turns. Test result after the fix: Passed.
     public void TestTakingTurnsQueue_ForeverZero()
     {
         var timTurns = 0;
@@ -116,7 +116,7 @@ public class TakingTurnsQueueTests
     // Scenario: Create a queue with the following people and turns: Tim (Forever), Sue (3)
     // Run 10 times.
     // Expected Result: Tim, Sue, Tim, Sue, Tim, Sue, Tim, Tim, Tim, Tim
-    // Defect(s) Found: 
+    // Defect(s) Found: Before the fix, the test failed because Tim with negative 3 turns disappeared after his first turn, for the same reason as the zero turns test: infinite turns were not put back. After the fix, a person with 0 or less turns is put back without changing their turns. Test result after the fix: Passed.
     public void TestTakingTurnsQueue_ForeverNegative()
     {
         var timTurns = -3;
@@ -143,7 +143,7 @@ public class TakingTurnsQueueTests
     [TestMethod]
     // Scenario: Try to get the next person from an empty queue
     // Expected Result: Exception should be thrown with appropriate error message.
-    // Defect(s) Found: 
+    // Defect(s) Found: No defect found. The empty queue check was already correct and threw an InvalidOperationException with the message "No one in the queue." Test result: Passed.
     public void TestTakingTurnsQueue_Empty()
     {
         var players = new TakingTurnsQueue();
